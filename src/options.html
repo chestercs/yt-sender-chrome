@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YT Downloader – Options</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg: #0f1216;
+      --panel: #171b21;
+      --muted: #9aa4b2;
+      --text: #e6eaf0;
+      --accent: #6ea8fe;
+      --accent-600:#4e8df6;
+      --ok: #37d67a;
+      --ring: 0 0 0 3px rgba(110,168,254,.35);
+      --radius: 14px;
+      --radius-sm:10px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f6f7fb; --panel:#ffffff; --text:#0e1217; --muted:#445065; --accent:#3b6ef5; --accent-600:#2b5ae6; --shadow:0 10px 24px rgba(12, 22, 45, .08);}
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 500px at 80% -20%, rgba(78,141,246,.15), transparent 60%),
+                  radial-gradient(1200px 500px at -10% 110%, rgba(55,214,122,.12), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      font: 14px/1.5 var(--font);
+      -webkit-font-smoothing: antialiased;
+      padding: 24px;
+      min-width: 420px;
+    }
+
+    .container{ max-width: 860px; margin: 0 auto; }
+    .header{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+    .badge{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0) 30%), var(--panel);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    h1{ font-size:20px; margin:0 0 6px 0; letter-spacing:.2px }
+    h2{ font-size:16px; margin:18px 0 10px 0 }
+    p.lead{ color: var(--muted); margin:0 0 14px 0 }
+
+    fieldset{
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin: 12px 0;
+    }
+    legend{ font-size:12px; color:var(--muted); padding:0 8px; }
+
+    .grid{ display:grid; grid-template-columns: 1fr; gap:14px; }
+    @media (min-width: 720px){ .grid-2{ grid-template-columns: 1fr 1fr; } }
+
+    label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+
+    input[type="url"],
+    input[type="text"],
+    input[type="password"],
+    select,
+    textarea{
+      width:100%;
+      background:#0d1014;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:10px 12px;
+      outline:none;
+      transition: border .15s ease, box-shadow .15s ease, background .2s ease;
+    }
+    textarea{ min-height:120px; resize:vertical }
+    input::placeholder, textarea::placeholder{ color:#6b7686 }
+
+    input:focus, select:focus, textarea:focus{
+      border-color: var(--accent);
+      box-shadow: var(--ring);
+      background:#0b0e12;
+    }
+
+    .radio-group, .checkbox-group{ display:grid; gap:10px }
+    .choice{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      background:#0d1014;
+    }
+    .choice input{ margin:0 }
+
+    .actions{ display:flex; align-items:center; gap:10px; justify-content:flex-end; margin-top:12px }
+    .btn{
+      appearance:none; border:0; cursor:pointer;
+      padding:10px 14px; border-radius:12px; font-weight:600;
+      transition: transform .06s ease, box-shadow .15s ease, background .2s ease;
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, var(--accent), var(--accent-600));
+      color:white; box-shadow: 0 10px 24px rgba(78,141,246,.35);
+    }
+    .btn.primary:hover{ transform: translateY(-1px) }
+    .btn.ghost{
+      background: transparent; color: var(--text);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    a{ color: var(--accent); text-decoration: none }
+    a:hover{ text-decoration: underline }
+
+    #saved{ color: var(--ok); font-weight:600; }
+    .hidden{ display:none }
+
+    .help{ font-size:12px; color:var(--muted); margin-top:6px }
+    .kbd{
+      font: 12px var(--font);
+      background:#0b0e12; border:1px solid rgba(255,255,255,.08);
+      padding:2px 6px; border-radius:6px; color:var(--text);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">
+    <h1>YT Downloader – Options</h1>
+    <span class="badge">lightweight helper for your self-hosted downloader</span>
+  </div>
+
+  <div class="card">
+    <p class="lead">
+      This extension adds a context-menu and toolbar action to send video links to your own
+      YTdownloader instance. You’ll need a running server.
+      See the <a href="https://github.com/chestercs/yt-sender-chrome" target="_blank" rel="noreferrer">YTdownloader docs</a>.
+    </p>
+
+    <form id="form">
+      <!-- Connection -->
+      <fieldset>
+        <legend>Connection</legend>
+        <div class="grid">
+          <div>
+            <label for="ytdownloader">YTdownloader URL</label>
+            <input type="url" id="ytdownloader" name="ytdownloader" placeholder="https://yt.yourdomain.tld" autocomplete="url" />
+            <div class="help">Use full origin (https://host[:port]). No trailing slash.</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Toolbar click behavior -->
+      <fieldset>
+        <legend>Toolbar click</legend>
+        <div class="radio-group">
+          <label class="choice"><input type="radio" name="click-behavior" id="go-to-ytdownloader" value="go-to-ytdownloader" /> Go to YTdownloader URL</label>
+          <label class="choice"><input type="radio" name="click-behavior" id="send-current-url" value="send-current-url" /> Send current tab URL (no switch)</label>
+          <label class="choice"><input type="radio" name="click-behavior" id="send-current-url-and-switch" value="send-current-url-and-switch" /> Send current tab URL and switch</label>
+        </div>
+      </fieldset>
+
+      <!-- Context menu behavior -->
+      <fieldset>
+        <legend>Context-menu on video links</legend>
+        <div class="radio-group">
+          <label class="choice"><input type="radio" name="context-menu-click-behavior" id="context-menu-send-current-url" value="context-menu-send-current-url" /> Send the video URL (no switch)</label>
+          <label class="choice"><input type="radio" name="context-menu-click-behavior" id="context-menu-send-current-url-and-switch" value="context-menu-send-current-url-and-switch" /> Send the video URL and switch</label>
+        </div>
+      </fieldset>
+
+      <!-- Authentication -->
+      <fieldset>
+        <legend>Authentication</legend>
+        <div class="grid grid-2">
+          <div class="checkbox-group">
+            <label class="choice">
+              <input type="checkbox" id="auth_enabled" name="auth_enabled" value="false" />
+              <span>Enable auth</span>
+            </label>
+            <div class="help">If enabled, the extension logs in before sending links.</div>
+          </div>
+          <div></div>
+          <div>
+            <label for="auth_username">Auth Username</label>
+            <input type="text" id="auth_username" name="auth_username" autocomplete="username" />
+          </div>
+          <div>
+            <label for="auth_password">Auth Password</label>
+            <div class="row">
+              <input type="password" id="auth_password" name="auth_password" autocomplete="current-password" />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Additional sites -->
+      <fieldset>
+        <legend>Additional sites</legend>
+        <label for="additional">Match patterns (one per line)</label>
+        <textarea id="additional" name="additional" placeholder="https://vimeo.com/*
+https://video.disney.com/*"></textarea>
+        <div class="help">
+          Patterns follow Chrome’s match pattern rules. Tip: use <span class="kbd">*://*.example.com/*</span> for all schemes &amp; subdomains.
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <span id="saved" class="hidden">Settings saved ✓</span>
+        <button type="submit" class="btn primary">Save settings</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>
