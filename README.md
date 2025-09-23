@@ -4,7 +4,9 @@ Send the current video link to your self‑hosted **[yt-dlp-web-ui](https://gith
 
 This extension is based on [MeTube-Chrome extension](https://github.com/Rpsl/metube-browser-extension)
 
-![Options UI](attach/options-dark.png)
+## Installation
+
+- [Install it from Chrome Web Store](https://chromewebstore.google.com/detail/gmiclfnkpkghcnhmhahkfjflfoobbphm)
 
 ---
 
@@ -16,11 +18,6 @@ This extension is based on [MeTube-Chrome extension](https://github.com/Rpsl/met
 - 🧠 **Smart permissions** — uses MV3 `optional_host_permissions` and requests access only for the origin you configure.
 
 ---
-
-## Installation
-
-### Chrome Web Store
-- Coming soon… 
 
 ### From source (developer mode)
 1. Download / clone this repository.
@@ -82,6 +79,11 @@ This extension is based on [MeTube-Chrome extension](https://github.com/Rpsl/met
     - Check your server’s cookies (for cookie‑based auth): `SameSite=None; Secure` is recommended.
     - `/auth/login` may return a **quoted token string** as `text/plain`; the extension handles this.
     - Use HTTPS and ensure your server’s CORS policy allows the calls if applicable.
+
+---
+## Screenshots
+
+![Options UI](attach/options-dark.png)
 
 ---
 
