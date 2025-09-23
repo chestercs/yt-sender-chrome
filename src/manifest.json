@@ -16,30 +16,19 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-
   "permissions": [
     "storage",
     "tabs",
     "contextMenus"
   ],
-
-  "host_permissions": [
-    // intentionally empty: we request the downloader host at runtime
-  ],
-
+  "host_permissions": [],
   "optional_host_permissions": [
     "*://*/*"
   ],
-
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
-
   "options_page": "options.html",
-
   "minimum_chrome_version": "88",
-
-  "author": "You",
-  "homepage_url": "https://github.com/chestercs/yt-sender-chrome"
+  "homepage_url": "https://github.com/yourrepo/yt-sender"
 }
