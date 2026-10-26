@@ -4,6 +4,21 @@ Send the current video link to your self‑hosted **[yt-dlp-web-ui](https://gith
 
 This extension is based on [MeTube-Chrome extension](https://github.com/Rpsl/metube-browser-extension)
 
+## Versions
+
+| Branch | Server | Extension |
+|---|---|---|
+| `v4` (default) | yt-dlp-web-ui **v4** | 2.x |
+| `v3` | yt-dlp-web-ui v3 | 1.x |
+
+v4 changes compared to 1.x:
+- The result shows on the toolbar icon: a green ✓ when the link was sent, a red ! when not; hover the icon for the reason (for example *wrong username or password*).
+- **Test connection** button on the options page (login + server version).
+- The login token is reused (v4 tokens are valid for 30 days) and renewed when the server rejects it.
+- YouTube playlist pages (`youtube.com/playlist?list=...`) go to `/api/v1/execPlaylist`.
+
+> After a server upgrade or a password change, update the password in the options and press **Test connection**. v4 keeps the login in `config.yml` as a bcrypt `password_hash`.
+
 ## Installation
 
 - [Install it from Chrome Web Store](https://chromewebstore.google.com/detail/gmiclfnkpkghcnhmhahkfjflfoobbphm)
@@ -45,10 +60,10 @@ This extension is based on [MeTube-Chrome extension](https://github.com/Rpsl/met
 - It requests host access **at runtime** for the user‑configured origin (`optional_host_permissions` + `chrome.permissions.request`).
 - If **Authentication** is enabled:
     - It calls `/auth/login`. The extension supports **text/plain** (quoted token string) and JSON responses.
-    - When a token is present, it adds `Authorization: Bearer <token>` and `x-authentication: <token>`. It also sends cookies with `credentials: "include"`.
-- Link dispatch is a POST to `POST <baseUrl>/api/v1/exec` with body:
+    - The token is sent in the `X-Authentication` header and cached for the browser session.
+- Link dispatch is a POST to `<baseUrl>/api/v1/exec` (playlist pages: `/api/v1/execPlaylist`) with body:
   ```json
-  { "url": "<videoUrl>" }
+  { "url": "<videoUrl>", "params": [] }
   ```
 
 ---

@@ -147,7 +147,49 @@ function isValidMatchPattern(p){
   return true;
 }
 
+// Test with the values in the form (saved or not): login, then the version
+// endpoint, which needs a valid token on an auth-enabled v4 server.
+async function testConnection() {
+  const out = document.getElementById('test-result');
+  const show = (ok, text) => { out.textContent = text; out.className = 'help ' + (ok ? 'ok' : 'err'); };
+  show(true, 'Testing…');
+  try {
+    const url = normalizeBaseUrl(document.getElementById('ytdownloader').value);
+    if (!url) throw new Error('enter the YTdownloader URL');
+    const origin = new URL(url).origin + '/*';
+    if (!(await chrome.permissions.contains({ origins: [origin] })) &&
+        !(await chrome.permissions.request({ origins: [origin] }))) {
+      throw new Error(`permission denied for ${origin}`);
+    }
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+    if (document.getElementById('auth_enabled').checked) {
+      const resp = await fetch(`${url}/auth/login`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          username: document.getElementById('auth_username').value || '',
+          password: document.getElementById('auth_password').value || '',
+        }),
+      });
+      const text = (await resp.text()).trim();
+      if (!resp.ok) throw new Error(/invalid username or password/i.test(text) ? 'wrong username or password' : `login failed (${resp.status}): ${text}`);
+      try { headers['X-Authentication'] = JSON.parse(text); } catch { headers['X-Authentication'] = text; }
+    }
+    const resp = await fetch(`${url}/api/v1/version`, { headers });
+    const text = (await resp.text()).trim();
+    if (!resp.ok) {
+      throw new Error(/token/i.test(text) ? 'the server requires a login: enable Authentication' : `server answered ${resp.status}: ${text}`);
+    }
+    let version = '';
+    try { const v = JSON.parse(text); version = v.rpcVersion || v.version || ''; } catch {}
+    show(true, `Connected ✓${version ? ` (server ${version})` : ''}`);
+  } catch (e) {
+    show(false, `Failed: ${e?.message || e}`);
+  }
+}
+
 window.addEventListener('DOMContentLoaded', restoreOptions, { passive: true });
+document.getElementById('test').addEventListener('click', testConnection);
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
   saveOptions();

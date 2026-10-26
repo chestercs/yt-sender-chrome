@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "YT Sender",
   "short_name": "YT Sender",
-  "version": "1.0.0",
-  "description": "Send the current video link (toolbar/context menu) to your self-hosted YTdownloader instance.",
+  "version": "2.0.0",
+  "description": "Send the current video link (toolbar/context menu) to your self-hosted yt-dlp-web-ui v4 instance.",
   "action": {
     "default_title": "Send to YTdownloader",
     "default_icon": {
@@ -29,6 +29,6 @@
     "service_worker": "background.js"
   },
   "options_page": "options.html",
-  "minimum_chrome_version": "88",
-  "homepage_url": "https://github.com/yourrepo/yt-sender"
+  "minimum_chrome_version": "102",
+  "homepage_url": "https://github.com/chestercs/yt-sender-chrome"
 }
